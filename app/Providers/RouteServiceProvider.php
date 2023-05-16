@@ -36,5 +36,13 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        Route::bind('file', function (string $value) {
+            return \App\Models\UserFile::where('id', $value)->firstOrFail();
+        });
+
+        Route::bind('note', function (string $value) {
+            return \App\Models\UserNote::where('id', $value)->firstOrFail();
+        });
     }
 }

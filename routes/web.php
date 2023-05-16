@@ -4,6 +4,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\UserFilesController;
+use App\Http\Controllers\UserNotesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('users', UsersController::class);
+    Route::resource('users.notes', UserNotesController::class);
+    Route::resource('users.files', UserFilesController::class);
 });
 
 require __DIR__.'/auth.php';

@@ -17,14 +17,12 @@ let props = defineProps({
 
 let searchTerm = ref(props.filters.search_term);
 
-watch(searchTerm, value => {
-    // throttle(() => {
+watch(searchTerm, throttle(function(value) {
     router.get('/users', { search_term: value }, {
         preserveState: true,
         replace: true,
-    })
-    // }, 500)
-});
+    });
+}, 500));
 
 function selectAll() {
     selected.value = [];
@@ -56,7 +54,7 @@ function updateCheckAll() {
                             <label for="search_term" class="sr-only">Search</label>
                             <input type="text" v-model="searchTerm" name="search_term" id="search_term" placeholder="Search Users..." class="w-96 block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
-                        <Link href="/users/create" type="button" title="Create New User" class="inline-flex items-center gap-x-2 rounded-md bg-green-700 ml-3 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        <Link href="/users/create" type="button" title="Create new user" class="inline-flex items-center gap-x-2 rounded-md bg-green-700 ml-3 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             <PlusIcon class="-mr-0.5 h-5 w-5" aria-hidden="true" />
                         </Link>
                         <button type="button" title="Delete Selected" class="inline-flex items-center gap-x-2 rounded-md bg-red-500 ml-2 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">

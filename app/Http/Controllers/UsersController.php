@@ -9,6 +9,7 @@ use App\Models\JobTitle;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Queue\Jobs\Job;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -19,18 +20,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::query()
-            ->when(request()->input('search_term'), function($query, $search_term) {
-                $query->where(function($q) use ($search_term) {
-                    $q->where('first_name', 'like', "%$search_term%")
-                        ->orWhere('last_name', 'like', "%$search_term%")
-                        ->orWhere('email', 'like', "%{$search_term}%");
-                });
-            })
-            ->with(['accessLevel', 'department', 'employeeStatus', 'jobTitle'])
-            ->orderBy('first_name')
-            ->paginate(User::$per_page)
-            ->withQueryString();
+        $users = User::findAll(request());
 
         return Inertia::render('Users/Index', [
             'users' => $users,
@@ -74,6 +64,14 @@ class UsersController extends Controller
     public function show(User $user)
     {
 
+
+        return Inertia::render('Users/Show', [
+            'user' => $user,
+            'access_level' => $user->accessLevel,
+            'department' => $user->department,
+            'job_title' => $user->jobTitle,
+            'employee_status' => $user->employeeStatus,
+        ]);
     }
 
     /**
@@ -86,22 +84,35 @@ class UsersController extends Controller
         $employee_statuses = EmployeeStatus::getOptions();
         $job_titles = JobTitle::getOptions();
 
+        $photo_url = $user->photo ? Storage::url('user_files/' . $user->photo) : null;
+
         return Inertia::render('Users/Edit', [
             'user' => $user,
             'access_levels' => $access_levels,
             'departments' => $departments,
             'employee_statuses' => $employee_statuses,
             'job_titles' => $job_titles,
+            'photo_url' => $photo_url,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(User $user, Request $request)
     {
-        User::create($this->_validate($request));
-        return redirect(route('users.index', $user));
+        $data = $this->_validate($request, $user->id);
+        if ($request->input('photo_action') == 'add') {
+            $photo_f_name = $user->getIdDisplay() . '.avatar.' . $request->photo->extension();
+            $data['photo'] = $photo_f_name;
+            $request->photo->storeAs('user_files', $photo_f_name);
+
+        } else if ($request->input('photo_action') == 'del') {
+            $data['photo'] = null;
+        }
+
+        $user->update($data);
+        return redirect(route('users.index', $user))->with('msg', 'Updated user.');
     }
 
     /**
@@ -112,7 +123,7 @@ class UsersController extends Controller
         //
     }
 
-    protected function _validate(Request $request): array
+    protected function _validate(Request $request, $user_id = null): array
     {
         $access_level_ids = implode(',', AccessLevel::all()->pluck('id')->toArray());
         $department_ids = implode(',', Department::all()->pluck('id')->toArray());
@@ -122,7 +133,7 @@ class UsersController extends Controller
         return $request->validate([
             'first_name' => ['required', 'min:2'],
             'last_name' => ['required', 'min:2'],
-            'email' => ['required', 'email', Rule::unique('users')],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user_id)],
             'password' => ['required', 'min:3'],
             'phone' => ['nullable', 'min:7'],
             'access_level_id' => ['nullable', "in:$access_level_ids"],
@@ -131,6 +142,7 @@ class UsersController extends Controller
             'status_id' => ['nullable', "in:$status_ids"],
             'start_dt' => ['nullable', 'date'],
             'next_review_dt' => ['nullable', 'date'],
+            'photo' => ['file', 'mimes:gif,jpg,jpeg,png']
         ]);
     }
 }

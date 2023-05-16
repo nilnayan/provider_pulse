@@ -3,15 +3,8 @@ import { reactive, ref} from 'vue';
 import { router, useForm } from "@inertiajs/vue3";
 import moment from 'moment';
 import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+import { UserCircleIcon } from '@heroicons/vue/24/outline';
 import MainLayout from "@/Layouts/MainLayout.vue";
-
-const currentDate = moment(new Date()).format('MM/DD/YYYY');
-const initialDate = ref(currentDate);
-
-const formatter = ref({
-    date: 'MM/DD/YYYY',
-    month: 'MMM'
-})
 
 let props = defineProps({
     user: Object,
@@ -19,9 +12,36 @@ let props = defineProps({
     departments: Object,
     employee_statuses: Object,
     job_titles: Object,
+    photo_url: String,
 });
 
+const currentDate = moment(new Date()).format('MM/DD/YYYY');
+const initialDate = ref(currentDate);
+const imageUrl = ref(props.photo_url);
+
+const formatter = ref({
+    date: 'MM/DD/YYYY',
+    month: 'MMM'
+})
+
+const  addPhoto = (event) => {
+    const file = event.target.files[0];
+    form.photo = file;
+    form.photo_action = 'add';
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+        imageUrl.value = e.target.result;
+    };
+}
+
+const delPhoto = () => {
+    form.photo_action = 'del';
+    imageUrl.value = null;
+}
+
 let form = useForm({
+    'id': props.user.id,
     'first_name': props.user.first_name,
     'last_name': props.user.last_name,
     'email': props.user.email,
@@ -33,10 +53,13 @@ let form = useForm({
     'job_title_id': props.user.job_title_id,
     'start_dt': props.user.start_dt,
     'next_review_dt': props.user.next_review_dt,
+    'photo': null,
+    'photo_action': null,
+    '_method': 'PUT',
 });
 
 let submit = () => {
-    form.post('/users', form);
+    form.post('/users/' + props.user.id);
 }
 </script>
 
@@ -97,6 +120,24 @@ let submit = () => {
                                     </div>
                                 </div>
 
+                                <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                                    <label for="photo" class="block mt-3 text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Photo</label>
+                                    <div v-if="!imageUrl" class="mt-2 flex items-center gap-x-3">
+                                        <UserCircleIcon class="h-12 w-12 text-gray-300" aria-hidden="true" />
+                                        <label class="ring-1 ring-inset ring-gray-300 hover:bg-gray-50 text-gray-900 py-1 px-3 rounded">
+                                            Choose Image
+                                            <input type="file" name="photo" id="photo"  ref="photo" class="hidden" @change="addPhoto" accept=".jpg,.jpeg,.png,.gif" />
+                                        </label>
+                                    </div>
+                                    <div v-else class="mt-2 flex items-center gap-x-3">
+                                        <img :src="imageUrl" alt="avatar" class="rounded-full h-12 w-12 object-cover" aria-hidden="true" />
+                                        <label class="ring-1 ring-inset ring-gray-300 hover:bg-gray-50 text-gray-900 py-1 px-3 rounded">
+                                            <a @click="delPhoto">Remove Image</a>
+                                        </label>
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
 
@@ -146,7 +187,7 @@ let submit = () => {
                                 <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                                     <label for="start_dt" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Start Date</label>
                                     <div class="relative mt-2 sm:col-span-2 sm:mt-0">
-                                        <vue-tailwind-datepicker as-single :formatter="formatter" v-model="user.start_dt" name="start_dt" :value="user.start_dt" :initial-date="initialDate" class="block w-full max-w-lg rounded-md border-0  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
+                                        <vue-tailwind-datepicker as-single :formatter="formatter" v-model="form.start_dt" name="start_dt" :value="form.start_dt" :initial-date="initialDate" class="block w-full max-w-lg rounded-md border-0  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
                                         <div v-if="form.errors.start_dt">
                                             <span class="text-sm text-red-400 mt-2">{{ form.errors.start_dt }}</span>
                                         </div>
@@ -157,7 +198,7 @@ let submit = () => {
                                 <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                                     <label for="next_review_dt" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Next Review Date</label>
                                     <div class="relative mt-2 sm:col-span-2 sm:mt-0">
-                                        <vue-tailwind-datepicker as-single :formatter="formatter" v-model="user.next_review_dt" name="next_review_dt" :value="user.next_review_dt" :initial-date="initialDate" class="block w-full max-w-lg rounded-md border-0  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
+                                        <vue-tailwind-datepicker as-single :formatter="formatter" v-model="form.next_review_dt" name="next_review_dt" :value="form.next_review_dt" :initial-date="initialDate" class="block w-full max-w-lg rounded-md border-0  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
                                         <div v-if="form.errors.next_review_dt">
                                             <span class="text-sm text-red-400 mt-2">{{ form.errors.next_review_dt }}</span>
                                         </div>
