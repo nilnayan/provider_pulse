@@ -18,6 +18,13 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     public static int $per_page = 10;
+    public static array $satisfaction_levels = [
+        '1' => 'Very Unhappy',
+        '2' => 'Slightly Unhappy',
+        '3' => 'Content',
+        '4' => 'Slightly Happy',
+        '5' => 'Very Happy'
+    ];
 
     /**
      * The attributes that are NOT mass assignable.
@@ -112,6 +119,11 @@ class User extends Authenticatable
     public function jobTitle(): BelongsTo
     {
         return $this->belongsTo(JobTitle::class);
+    }
+
+    public function userFiles(): HasMany
+    {
+        return $this->hasMany(UserFile::class);
     }
 
     public function userNotes(): HasMany

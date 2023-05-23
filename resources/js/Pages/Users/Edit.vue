@@ -13,6 +13,7 @@ let props = defineProps({
     employee_statuses: Object,
     job_titles: Object,
     photo_url: String,
+    satisfaction_levels: Object,
 });
 
 const currentDate = moment(new Date()).format('MM/DD/YYYY');
@@ -64,10 +65,10 @@ let submit = () => {
 </script>
 
 <template>
-    <Head title="New User" />
+    <Head title="Edit User" />
 
     <MainLayout>
-        <template #header>Users</template>
+        <template #header>Edit User Profile</template>
 
         <div class="mt-8 sm:mx-auto sm:w-full">
             <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -185,6 +186,15 @@ let submit = () => {
                                 </div>
 
                                 <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                                    <label for="status_id" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Satisfaction Level</label>
+                                    <div class="mt-2 sm:col-span-2 sm:mt-0">
+                                        <select v-model="form.satisfaction_level_id" id="satisfaction_level_id" name="satisfaction_level_id" class="block w-full max-w-lg rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 pl-2">
+                                            <option v-for="(id, name) in props.satisfaction_levels" :key="id" :value="id">{{ name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                                     <label for="start_dt" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Start Date</label>
                                     <div class="relative mt-2 sm:col-span-2 sm:mt-0">
                                         <vue-tailwind-datepicker as-single :formatter="formatter" v-model="form.start_dt" name="start_dt" :value="form.start_dt" :initial-date="initialDate" class="block w-full max-w-lg rounded-md border-0  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
@@ -211,6 +221,7 @@ let submit = () => {
                     </div>
                     <div class="pt-5">
                         <div class="flex justify-end gap-x-3">
+
                             <button type="button" class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" @click="goBack">Cancel</button>
                             <button type="submit" class="inline-flex justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
                         </div>

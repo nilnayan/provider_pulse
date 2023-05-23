@@ -83,7 +83,7 @@ watch(searchTerm, throttle(function(value) {
     <Head title="User Notes" />
 
     <MainLayout>
-        <template #header>User Notes</template>
+        <template #header>User Notes for {{ user.first_name }} {{ user.last_name }}</template>
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-2">

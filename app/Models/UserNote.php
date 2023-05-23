@@ -34,20 +34,28 @@ class UserNote extends Model
             ->withQueryString();
     }
 
-    public static function findByUser(User $user, Request $request)//: LengthAwarePaginator
+    public static function findByUser(User $user, Array $param_vals)//: LengthAwarePaginator
     {
+        foreach(['start_dt', 'end_dt', 'search_term', 'limit'] as $param) {
+            if (!isset($param_vals[$param]))
+                $param_vals[$param] = null;
+        }
+
         return self::query()
-            ->when($request->input('search_term'), function($query, $search_term) {
+            ->when($param_vals['search_term'], function($query, $search_term) {
                 $query->where('content', 'like', "%$search_term%");
             })
-            ->when($request->input('start_dt'), function($query, $start_dt) {
+            ->when($param_vals['start_dt'], function($query, $start_dt) {
                 $query->where('created_at', '>=', $start_dt);
             })
-            ->when($request->input('end_dt'), function($query, $end_dt) {
+            ->when($param_vals['end_dt'], function($query, $end_dt) {
                 $query->where('created_at', '<=', $end_dt);
             })
             ->where('user_id', $user->id)
             ->orderBy('updated_at', 'desc')
+            ->when($param_vals['limit'], function($query, $limit) {
+                $query->limit($limit);
+            })
 //            ->toSql();
             ->paginate(self::$per_page)
             ->withQueryString();

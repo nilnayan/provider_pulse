@@ -30,6 +30,7 @@ class UserFactory extends Factory
             'access_level_id' => $access_level_ids[$access_level_idx],
             'department_id' => rand(1, \App\Models\Department::count()),
             'job_title_id' => rand(1, \App\Models\JobTitle::count()),
+            'satisfaction_level_id' => rand(1, 5),
             'status_id' => rand(1, \App\Models\EmployeeStatus::count()),
             'start_dt' => fake()->dateTimeThisYear()->format('Y-m-d'),
             'next_review_dt' => fake()->dateTimeBetween(now(), date('Y-m-d', strtotime('+1 year')))->format('Y-m-d'),

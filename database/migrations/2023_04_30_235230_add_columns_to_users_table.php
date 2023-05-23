@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('start_dt')->nullable()->after('phone');
             $table->foreignId('status_id')->nullable()->after('phone');
             $table->foreignId('job_title_id')->nullable()->after('phone');
+            $table->foreignId('satisfaction_level_id')->nullable()->after('job_title_id');
             $table->foreignId('department_id')->nullable()->after('phone');
             $table->foreignId('access_level_id')->default(3)->after('phone');
 

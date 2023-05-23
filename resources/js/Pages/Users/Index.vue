@@ -48,16 +48,16 @@ function updateCheckAll() {
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-2">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-5 py-6">
                     <div class="flex justify-end my-2">
                         <div>
                             <label for="search_term" class="sr-only">Search</label>
                             <input type="text" v-model="searchTerm" name="search_term" id="search_term" placeholder="Search Users..." class="w-96 block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
-                        <Link href="/users/create" type="button" title="Create new user" class="inline-flex items-center gap-x-2 rounded-md bg-green-700 ml-3 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        <Link href="/users/create" type="button" title="Create new user" class="inline-flex items-center gap-x-2 rounded-md bg-indigo-500 ml-3 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             <PlusIcon class="-mr-0.5 h-5 w-5" aria-hidden="true" />
                         </Link>
-                        <button type="button" title="Delete Selected" class="inline-flex items-center gap-x-2 rounded-md bg-red-500 ml-2 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        <button type="button" title="Delete Selected" class="inline-flex items-center gap-x-2 rounded-md bg-indigo-500 ml-2 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             <TrashIcon class="-mr-0.5 h-5 w-5" aria-hidden="true" />
                         </button>
                     </div>
@@ -70,7 +70,7 @@ function updateCheckAll() {
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Department</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 text-right">Job Title</th>
                             <th scope="col" class="relative py-3.5 pl-3 pr-2 sm:pr-4 flex justify-end">
-                                <span class="sr-only">Edit</span>
+                                <span class="sr-only">View</span>
                                 <input type="checkbox" v-model="allSelected" @click="selectAll" class="ml-2" />
                             </th>
                         </tr>
@@ -89,7 +89,7 @@ function updateCheckAll() {
                                 {{ user.job_title ? user.job_title.name : null }}
                             </td>
                             <td class="align-top py-4 pl-4 text-xs text-right font-medium sm:pl-0 flex pr-2 sm:pr-4 justify-end">
-                                <Link :href="'/users/' + user.id + '/edit'"><EyeIcon class="h-4 w-4 ml-2" /></Link>
+                                <Link :href="'/users/' + user.id"><EyeIcon class="h-4 w-4 ml-2" /></Link>
                                 <input type="checkbox" :value="user.id" v-model="selected" @change="updateCheckAll" class="ml-2"/>
                             </td>
                         </tr>

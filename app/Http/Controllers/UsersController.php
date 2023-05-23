@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Models\EmployeeStatus;
 use App\Models\JobTitle;
 use App\Models\User;
+use App\Models\UserNote;
 use Illuminate\Http\Request;
 use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Facades\Storage;
@@ -63,7 +64,8 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-
+        $user_notes = $user->userNotes()->orderBy('updated_at', 'desc')->limit(3)->get();
+        $user_files = $user->userFiles()->orderBy('updated_at', 'desc')->limit(3)->get();
 
         return Inertia::render('Users/Show', [
             'user' => $user,
@@ -71,6 +73,9 @@ class UsersController extends Controller
             'department' => $user->department,
             'job_title' => $user->jobTitle,
             'employee_status' => $user->employeeStatus,
+            'user_notes' => $user_notes,
+            'user_files' => $user_files,
+            'satisfaction_level' => User::$satisfaction_levels[$user->satisfaction_level_id],
         ]);
     }
 
@@ -83,6 +88,7 @@ class UsersController extends Controller
         $departments = Department::getOptions();
         $employee_statuses = EmployeeStatus::getOptions();
         $job_titles = JobTitle::getOptions();
+        $satisfaction_levels = User::$satisfaction_levels;
 
         $photo_url = $user->photo ? Storage::url('user_files/' . $user->photo) : null;
 
@@ -93,6 +99,7 @@ class UsersController extends Controller
             'employee_statuses' => $employee_statuses,
             'job_titles' => $job_titles,
             'photo_url' => $photo_url,
+            'satisfaction_levels' => $satisfaction_levels,
         ]);
     }
 

@@ -14,14 +14,15 @@ class UserNotesController extends Controller
      */
     public function index(User $user)
     {
-        $user_notes = UserNote::findByUser($user, request());
+        $param_vals = request()->only(['start_dt', 'end_dt', 'search_term', 'limit']);
+        $user_notes = UserNote::findByUser($user, $param_vals);
 
 //        dd($user_notes);
 
         return Inertia::render('UserNotes/Index', [
             'user' => $user,
             'user_notes' => $user_notes,
-            'filters' => request()->only(['start_dt', 'end_dt', 'search_term']),
+            'filters' => $param_vals,
         ]);
     }
 
