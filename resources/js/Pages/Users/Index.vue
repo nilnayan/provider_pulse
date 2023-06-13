@@ -68,7 +68,9 @@ function updateCheckAll() {
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Phone</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Department</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 text-right">Job Title</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 text-left">Job Title</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 text-left">Role</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 text-right">Satisfaction</th>
                             <th scope="col" class="relative py-3.5 pl-3 pr-2 sm:pr-4 flex justify-end">
                                 <span class="sr-only">View</span>
                                 <input type="checkbox" v-model="allSelected" @click="selectAll" class="ml-2" />
@@ -85,8 +87,12 @@ function updateCheckAll() {
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 {{ user.department ? user.department.name : null }}
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 {{ user.job_title ? user.job_title.name : null }}
+                            </td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ user.access_level.name }}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-right">
+                                {{ user.satisfaction_level ? user.satisfaction_level.name : null }}
                             </td>
                             <td class="align-top py-4 pl-4 text-xs text-right font-medium sm:pl-0 flex pr-2 sm:pr-4 justify-end">
                                 <Link :href="'/users/' + user.id"><EyeIcon class="h-4 w-4 ml-2" /></Link>

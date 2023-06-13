@@ -62,7 +62,7 @@ class User extends Authenticatable
                         ->orWhere('email', 'like', "%{$search_term}%");
                 });
             })
-            ->with(['accessLevel', 'department', 'employeeStatus', 'jobTitle'])
+            ->with(['accessLevel', 'department', 'employeeStatus', 'jobTitle', 'satisfactionLevel'])
             ->orderBy('first_name')
             ->paginate(self::$per_page)
             ->withQueryString();
@@ -121,6 +121,11 @@ class User extends Authenticatable
         return $this->belongsTo(JobTitle::class);
     }
 
+    public function satisfactionLevel(): BelongsTo
+    {
+        return $this->belongsTo(SatisfactionLevel::class);
+    }
+
     public function userFiles(): HasMany
     {
         return $this->hasMany(UserFile::class);
@@ -129,5 +134,10 @@ class User extends Authenticatable
     public function userNotes(): HasMany
     {
         return $this->hasMany(UserNote::class);
+    }
+
+    public function userStats(): HasMany
+    {
+        return $this->hasMany(UserStat::class);
     }
 }

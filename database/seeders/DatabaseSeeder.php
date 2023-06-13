@@ -23,10 +23,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(AccessLevelSeeder::class);
         $this->call(DepartmentSeeder::class);
-        $this->call(JobTitleSeeder::class);
-        $this->call(EmployeeStatusSeeder::class);
-        $this->call(UserSeeder::class);
         $this->call(DocumentTypeSeeder::class);
-
+        $this->call(EmployeeStatusSeeder::class);
+        $this->call(JobTitleSeeder::class);
+        $this->call(SatisfactionLevelSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(UserStatSeeder::class);
     }
 }

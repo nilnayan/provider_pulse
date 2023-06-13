@@ -6,6 +6,7 @@ use App\Models\AccessLevel;
 use App\Models\Department;
 use App\Models\EmployeeStatus;
 use App\Models\JobTitle;
+use App\Models\SatisfactionLevel;
 use App\Models\User;
 use App\Models\UserNote;
 use Illuminate\Http\Request;
@@ -40,6 +41,7 @@ class UsersController extends Controller
         $departments = Department::getOptions();
         $employee_statuses = EmployeeStatus::getOptions();
         $job_titles = JobTitle::getOptions();
+        $satisfaction_levels = SatisfactionLevel::getOptions();
 
         return Inertia::render('Users/Create', [
             'user' => $user,
@@ -47,6 +49,7 @@ class UsersController extends Controller
             'departments' => $departments,
             'employee_statuses' => $employee_statuses,
             'job_titles' => $job_titles,
+            'satisfaction_levels' => $satisfaction_levels,
         ]);
     }
 
@@ -66,6 +69,12 @@ class UsersController extends Controller
     {
         $user_notes = $user->userNotes()->orderBy('updated_at', 'desc')->limit(3)->get();
         $user_files = $user->userFiles()->orderBy('updated_at', 'desc')->limit(3)->get();
+        $user_stats = $user->userStats()->orderBy('period', 'desc')->get();
+
+        $months = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $months[$i] = date('F', mktime(0, 0, 0, $i, 1));
+        }
 
         return Inertia::render('Users/Show', [
             'user' => $user,
@@ -73,9 +82,11 @@ class UsersController extends Controller
             'department' => $user->department,
             'job_title' => $user->jobTitle,
             'employee_status' => $user->employeeStatus,
-            'user_notes' => $user_notes,
+            'months' => $months,
+            'satisfaction_level' => $user->satisfactionLevel,
             'user_files' => $user_files,
-            'satisfaction_level' => User::$satisfaction_levels[$user->satisfaction_level_id],
+            'user_notes' => $user_notes,
+            'user_stats' => $user_stats,
         ]);
     }
 
@@ -88,7 +99,7 @@ class UsersController extends Controller
         $departments = Department::getOptions();
         $employee_statuses = EmployeeStatus::getOptions();
         $job_titles = JobTitle::getOptions();
-        $satisfaction_levels = User::$satisfaction_levels;
+        $satisfaction_levels = SatisfactionLevel::getOptions();
 
         $photo_url = $user->photo ? Storage::url('user_files/' . $user->photo) : null;
 

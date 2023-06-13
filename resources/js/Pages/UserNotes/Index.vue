@@ -19,7 +19,7 @@ const editNote = (id) => {
 
 const storeNote = () => {
     const url = '/users/' + props.user.id + '/notes/';
-    alert(url);
+    // alert(url);
     router.post(url, {
             'title': userNote.value.title,
             'content': userNote.value.content,

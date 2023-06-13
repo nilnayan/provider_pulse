@@ -29,6 +29,7 @@ return new class extends Migration
 
             $table->foreign('access_level_id')->references('id')->on('access_levels');
             $table->foreign('department_id')->references('id')->on('departments');
+            $table->foreign('satisfaction_level_id')->references('id')->on('satisfaction_levels');
             $table->foreign('job_title_id')->references('id')->on('job_titles');
             $table->foreign('status_id')->references('id')->on('employee_statuses');
         });

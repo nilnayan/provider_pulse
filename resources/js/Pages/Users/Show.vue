@@ -58,9 +58,18 @@
                                 </div>
                                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                     <dt class="text-sm font-medium leading-6 text-gray-900">Satisfaction Level</dt>
-                                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ satisfaction_level }}</dd>
+                                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ props.satisfaction_level.name }}</dd>
                                 </div>
                             </dl>
+                        </div>
+                    </div>
+                    <div v-if="props.user.access_level_id === 3">
+                        <div class="mt-10 px-4 sm:px-0">
+                            <h3 class="text-base font-semibold leading-7 text-gray-900">Productivity Stats</h3>
+                            <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Performance records of the provider.</p>
+                        </div>
+                        <div class="mt-6 border-t border-gray-100">
+                            <ShowStats :months="months" :stats="user_stats" />
                         </div>
                     </div>
                 </div>
@@ -117,6 +126,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { PencilSquareIcon, TrashIcon, UserCircleIcon } from "@heroicons/vue/24/outline";
+import ShowStats from "@/Pages/Users/ShowStats.vue";
 
 const confirmDelete = (e) => {
     confirm('Delete this user?') || e.preventDefault();
@@ -126,9 +136,11 @@ let props = defineProps({
     user: Object,
     access_level: Object,
     department: Object,
-    job_title: Object,
     employee_status: Object,
+    job_title: Object,
+    months: Object,
+    satisfaction_level: Object,
     user_notes: Object,
-    satisfaction_level: String,
+    user_stats: Object,
 })
 </script>

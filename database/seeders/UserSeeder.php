@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
 
         User::create($data);
 
-        User::factory(5)
+        User::factory(50)
             ->has(UserNote::factory()->count(rand(2, 5)))
             ->create();
     }

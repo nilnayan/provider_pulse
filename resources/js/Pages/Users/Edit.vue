@@ -52,6 +52,7 @@ let form = useForm({
     'department_id': props.user.department_id,
     'status_id': props.user.status_id,
     'job_title_id': props.user.job_title_id,
+    'satisfaction_level_id': props.user.satisfaction_level_id,
     'start_dt': props.user.start_dt,
     'next_review_dt': props.user.next_review_dt,
     'photo': null,
