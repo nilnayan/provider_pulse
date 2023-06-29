@@ -9,11 +9,13 @@ import MainLayout from "@/Layouts/MainLayout.vue";
 import Pagination from "@/Components/Pulse/Pagination.vue";
 import Modal from "@/Components/Pulse/Modal.vue";
 
+const showModal = ref(false);
+
 const editNote = (id) => {
     const url = '/users/' + props.user.id + '/notes/' + id;
     axios.get(url).then(res => {
         userNote.value = res.data;
-        showDialog.value = true;
+        showModal.value = true;
     })
 }
 
@@ -67,7 +69,6 @@ let userNote = ref({
     title: null,
     content: null,
 });
-let showDialog = ref(false);
 
 watch(searchTerm, throttle(function(value) {
     const url = '/users/' + props.user.id + '/notes/';
@@ -130,7 +131,7 @@ watch(searchTerm, throttle(function(value) {
                 </div>
             </div>
         </div>
-        <Modal :open="showDialog" @response="(msg) => handleAction(msg)" id="modal">
+        <Modal :open="showModal" @close="showModal = false" id="modal">
             <template #icon><PencilSquareIcon class="h-6 w-6 text-slate-600" aria-hidden="true" /></template>
             <template #title>Edit Note</template>
             <div class="gap-x-6 w-full">
