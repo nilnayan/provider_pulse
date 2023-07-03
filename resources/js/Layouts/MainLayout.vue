@@ -26,6 +26,7 @@ const navigation = [
         href: '/users',
         current: false,
         menu_items: [
+            { name: 'Departments', href: '/departments'},
             { name: 'Document Types', href: '/document-types'},
             { name: 'Users', href: '/users'},
         ]

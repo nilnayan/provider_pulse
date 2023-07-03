@@ -11,6 +11,16 @@ import Modal from "@/Components/Pulse/Modal.vue";
 
 const showModal = ref(false);
 
+const createNote = () => {
+    userNote.value = {
+        id: null,
+        title: null,
+        content: null,
+    };
+
+    showModal.value = true;
+}
+
 const editNote = (id) => {
     const url = '/users/' + props.user.id + '/notes/' + id;
     axios.get(url).then(res => {
@@ -44,16 +54,14 @@ const updateNote = (id) => {
         });
 }
 
-const handleAction = (msg) => {
-    if (msg === 'save') {
-        if (userNote.value.id)
-            updateNote(userNote.value.id);
-        else
-            storeNote();
-    }
+const saveNote = () => {
+    if (userNote.value.id)
+        updateNote(userNote.value.id);
+    else
+        storeNote();
 
-    userNote.value = { title: null, content: null };
-    showDialog.value = false;
+    userNote.value = { id: null, title: null, content: null };
+    showModal.value = false;
 }
 
 // let userNoteId = ref(null);
@@ -66,6 +74,7 @@ let props = defineProps({
 
 let searchTerm = ref(props.filters.search_term);
 let userNote = ref({
+    id: null,
     title: null,
     content: null,
 });
@@ -94,7 +103,7 @@ watch(searchTerm, throttle(function(value) {
                             <label for="search_term" class="sr-only">Search</label>
                             <input type="text" v-model="searchTerm" name="search_term" id="search_term" placeholder="Search Notes..." class="w-96 block rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
-                        <button type="button" @click="showDialog = true" title="Create new user" class="inline-flex items-center gap-x-2 rounded-md bg-indigo-500 ml-3 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        <button type="button" @click="createNote" title="Create new note" class="inline-flex items-center gap-x-2 rounded-md bg-indigo-500 ml-3 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             <PlusIcon class="-mr-0.5 h-5 w-5" aria-hidden="true" />
                         </button>
                     </div>
@@ -131,7 +140,7 @@ watch(searchTerm, throttle(function(value) {
                 </div>
             </div>
         </div>
-        <Modal :open="showModal" @close="showModal = false" id="modal">
+        <Modal :open="showModal" @close="showModal = false" @save="saveNote" id="modal">
             <template #icon><PencilSquareIcon class="h-6 w-6 text-slate-600" aria-hidden="true" /></template>
             <template #title>Edit Note</template>
             <div class="gap-x-6 w-full">
@@ -143,7 +152,6 @@ watch(searchTerm, throttle(function(value) {
                         </div>
                     </div>
                 </div>
-
                 <div class="col-span-full mt-5">
                     <label for="content" class="block text-sm font-medium leading-6 text-gray-900">Content</label>
                     <div class="mt-2">
