@@ -3,6 +3,8 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\DocumentTypesController;
+use App\Http\Controllers\EmployeeStatusesController;
+use App\Http\Controllers\JobTitlesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UsersController;
@@ -38,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('departments', DepartmentsController::class);
     Route::resource('document-types', DocumentTypesController::class);
+    Route::resource('employee-statuses', EmployeeStatusesController::class);
+    Route::resource('job-titles', JobTitlesController::class);
     Route::resource('users', UsersController::class);
     Route::resource('users.files', UserFilesController::class);
     Route::resource('users.notes', UserNotesController::class);

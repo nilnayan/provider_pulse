@@ -28,6 +28,8 @@ const navigation = [
         menu_items: [
             { name: 'Departments', href: '/departments'},
             { name: 'Document Types', href: '/document-types'},
+            { name: 'Employee Statuses', href: '/employee-statuses'},
+            { name: 'Job Titles', href: '/job-titles'},
             { name: 'Users', href: '/users'},
         ]
     },

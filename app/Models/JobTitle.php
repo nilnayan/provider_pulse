@@ -10,6 +10,13 @@ class JobTitle extends Model
     use HasFactory;
     protected $guarded = [];
 
+    public static function findAll()
+    {
+        return self::select('id', 'name', 'updated_at')
+            ->orderBy('name')
+            ->get();
+    }
+
     public static function getOptions(bool $nullable = true): array
     {
         $options = $nullable ? [null => null] : [];
