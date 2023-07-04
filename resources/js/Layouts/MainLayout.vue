@@ -26,10 +26,12 @@ const navigation = [
         href: '/users',
         current: false,
         menu_items: [
+            { name: 'Access Levels', href: '/access-levels'},
             { name: 'Departments', href: '/departments'},
             { name: 'Document Types', href: '/document-types'},
             { name: 'Employee Statuses', href: '/employee-statuses'},
             { name: 'Job Titles', href: '/job-titles'},
+            { name: 'Satisfaction Levels', href: '/satisfaction-levels'},
             { name: 'Users', href: '/users'},
         ]
     },
