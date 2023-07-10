@@ -28,9 +28,35 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'first_name' => 'Guest',
-            'last_name' => 'Admin',
+            'first_name' => 'Brian',
+            'last_name' => 'Garbrandt',
             'email' => 'bgarbrandt@gmail.com',
+            'password' => '12345678',
+            'phone' => '862-666-2166',
+            'access_level_id' => 9,
+            'department_id' => 5,
+            'job_title_id' => 5,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        User::create([
+            'first_name' => 'Brian',
+            'last_name' => 'Stern',
+            'email' => 'bs@heedhealthcare.com',
+            'password' => '12345678',
+            'phone' => '123-456-7890',
+            'access_level_id' => 9,
+            'department_id' => 5,
+            'job_title_id' => 5,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        User::create([
+            'first_name' => 'Eric',
+            'last_name' => 'Schweiger',
+            'email' => 'es@heedhealthcare.com',
             'password' => '12345678',
             'phone' => '123-456-7890',
             'access_level_id' => 9,
