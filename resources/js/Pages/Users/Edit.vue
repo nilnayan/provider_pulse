@@ -46,7 +46,8 @@ let form = useForm({
     'first_name': props.user.first_name,
     'last_name': props.user.last_name,
     'email': props.user.email,
-    'password': '11111111',
+    'password': null,
+    'password_confirmation': null,
     'phone': props.user.phone,
     'access_level_id': props.user.access_level_id,
     'department_id': props.user.department_id,
@@ -113,6 +114,26 @@ let submit = () => {
                                 </div>
 
                                 <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                                    <label for="password" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Password</label>
+                                    <div class="mt-2 sm:col-span-2 sm:mt-0">
+                                        <input v-model="form.password" id="password" name="password" type="password" autocomplete="new-password" class="block w-full max-w-lg rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
+                                        <div v-if="form.errors.password">
+                                            <span class="text-sm text-red-400 mt-2">{{ form.errors.password }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                                    <label for="password_confirmation" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Confirm Password</label>
+                                    <div class="mt-2 sm:col-span-2 sm:mt-0">
+                                        <input v-model="form.password_confirmation" id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" class="block w-full max-w-lg rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
+                                        <div v-if="form.errors.password_confirmation">
+                                            <span class="text-sm text-red-400 mt-2">{{ form.errors.password_confirmation }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                                     <label for="phone" class="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5">Phone</label>
                                     <div class="mt-2 sm:col-span-2 sm:mt-0">
                                         <input v-model="form.phone" id="phone" name="phone" type="text" autocomplete="phone" class="block w-full max-w-lg rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
@@ -138,7 +159,10 @@ let submit = () => {
                                         </label>
                                     </div>
                                 </div>
-
+                                <div v-if="form.errors.photo" class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4">
+                                    <div class="sm:col-span-1"></div>
+                                    <span class="text-sm text-red-400 mt-2">{{ form.errors.photo }}</span>
+                                </div>
 
                             </div>
                         </div>

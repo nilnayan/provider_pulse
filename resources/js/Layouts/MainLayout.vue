@@ -21,6 +21,12 @@ const navigation = [
         current: true,
     },
     {
+        title: 'Users',
+        access: 3,
+        href: '/users',
+        current: false,
+    },
+    {
         title: 'Resources',
         access: 3,
         href: '/users',
@@ -32,7 +38,6 @@ const navigation = [
             { name: 'Employee Statuses', href: '/employee-statuses'},
             { name: 'Job Titles', href: '/job-titles'},
             { name: 'Satisfaction Levels', href: '/satisfaction-levels'},
-            { name: 'Users', href: '/users'},
         ]
     },
 ];

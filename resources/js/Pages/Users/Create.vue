@@ -36,7 +36,7 @@ let form = useForm({
 });
 
 let submit = () => {
-    form.post('/users', form);
+    form.post('/users');
 }
 </script>
 

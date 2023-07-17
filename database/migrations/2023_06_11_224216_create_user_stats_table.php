@@ -18,8 +18,8 @@ return new class extends Migration
             $table->date('period');
             $table->integer('num_patients');
             $table->float('comm');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

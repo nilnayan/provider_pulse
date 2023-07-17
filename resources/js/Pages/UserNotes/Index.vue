@@ -1,10 +1,9 @@
 <script setup>
-import { router } from "@inertiajs/vue3";
 import { ref, watch } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
-import throttle from "lodash/throttle";
-import { PencilSquareIcon, MagnifyingGlassIcon, PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import moment from "moment";
+import throttle from "lodash/throttle";
+import { router, Head, Link } from "@inertiajs/vue3";
+import { PencilSquareIcon, MagnifyingGlassIcon, PlusIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import Pagination from "@/Components/Pulse/Pagination.vue";
 import Modal from "@/Components/Pulse/Modal.vue";

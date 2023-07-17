@@ -44,5 +44,9 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('note', function (string $value) {
             return \App\Models\UserNote::where('id', $value)->firstOrFail();
         });
+
+        Route::bind('stat', function (string $value) {
+            return \App\Models\UserStat::where('id', $value)->firstOrFail();
+        });
     }
 }

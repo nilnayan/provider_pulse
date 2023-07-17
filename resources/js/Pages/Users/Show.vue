@@ -69,7 +69,7 @@
                             <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Performance records of the provider.</p>
                         </div>
                         <div class="mt-6 border-t border-gray-100">
-                            <ShowStats :months="months" :stats="user_stats" />
+                            <ShowStats :months="months" :stats="user_stats" :user="user" />
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@ let props = defineProps({
     department: Object,
     employee_status: Object,
     job_title: Object,
-    months: Object,
+    months: Array,
     satisfaction_level: Object,
     user_notes: Object,
     user_stats: Object,

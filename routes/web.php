@@ -12,6 +12,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\UserFilesController;
 use App\Http\Controllers\UserNotesController;
+use App\Http\Controllers\UserStatsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -49,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UsersController::class);
     Route::resource('users.files', UserFilesController::class);
     Route::resource('users.notes', UserNotesController::class);
-//    Route::resource('users.stats', UserStatsController::class);
+    Route::resource('users.stats', UserStatsController::class);
 });
 
 require __DIR__.'/auth.php';

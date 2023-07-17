@@ -24,6 +24,8 @@ class UserStatSeeder extends Seeder
                     'period' => $period,
                     'num_patients' => rand(5, 50),
                     'comm' => $num_patients * $comm_rt,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ];
 
                 DB::table('user_stats')->insert($data);

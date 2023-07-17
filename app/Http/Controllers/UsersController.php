@@ -120,6 +120,7 @@ class UsersController extends Controller
     public function update(User $user, Request $request)
     {
         $data = $this->_validate($request, $user->id);
+
         if ($request->input('photo_action') == 'add') {
             $photo_f_name = $user->getIdDisplay() . '.avatar.' . $request->photo->extension();
             $data['photo'] = $photo_f_name;
@@ -128,6 +129,9 @@ class UsersController extends Controller
         } else if ($request->input('photo_action') == 'del') {
             $data['photo'] = null;
         }
+
+        if (!$data['password']) unset($data['password']);
+        unset($data['password_confirmation']);
 
         $user->update($data);
         return redirect(route('users.index', $user))->with('msg', 'Updated user.');
@@ -152,7 +156,7 @@ class UsersController extends Controller
             'first_name' => ['required', 'min:2'],
             'last_name' => ['required', 'min:2'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($user_id)],
-            'password' => ['required', 'min:3'],
+            'password' => $user_id ? ['nullable', 'confirmed', 'min:3'] : ['required', 'confirmed', 'min:3'],
             'phone' => ['nullable', 'min:7'],
             'access_level_id' => ['nullable', "in:$access_level_ids"],
             'department_id' => ['nullable', "in:$department_ids"],
@@ -160,7 +164,7 @@ class UsersController extends Controller
             'status_id' => ['nullable', "in:$status_ids"],
             'start_dt' => ['nullable', 'date'],
             'next_review_dt' => ['nullable', 'date'],
-            'photo' => ['file', 'mimes:gif,jpg,jpeg,png']
+            'photo' => ['nullable', 'file', 'mimes:gif,jpg,jpeg,png']
         ]);
     }
 }
