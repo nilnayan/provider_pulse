@@ -105,7 +105,9 @@ const editStat = (i) => {
 }
 
 const saveStat = () => {
-    let url = '/users/' + props.user.id + '/stats/';
+    let url = '/users/' + props.user.id + '/stats';
+    if (form.id)
+        url += '/' + form.id;
 
     form.post(url, {
         preserveScroll: true,
