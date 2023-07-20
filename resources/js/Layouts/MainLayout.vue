@@ -37,6 +37,7 @@ const navigation = [
             { name: 'Document Types', href: '/document-types'},
             { name: 'Employee Statuses', href: '/employee-statuses'},
             { name: 'Job Titles', href: '/job-titles'},
+            { name: 'Locations', href: '/locations'},
             { name: 'Satisfaction Levels', href: '/satisfaction-levels'},
         ]
     },

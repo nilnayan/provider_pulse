@@ -6,6 +6,7 @@ use App\Http\Controllers\DepartmentsController;
 use App\Http\Controllers\DocumentTypesController;
 use App\Http\Controllers\EmployeeStatusesController;
 use App\Http\Controllers\JobTitlesController;
+use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SatisfactionLevelsController;
 use App\Http\Controllers\TestController;
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('document-types', DocumentTypesController::class);
     Route::resource('employee-statuses', EmployeeStatusesController::class);
     Route::resource('job-titles', JobTitlesController::class);
+    Route::resource('locations', LocationsController::class);
     Route::resource('satisfaction-levels', SatisfactionLevelsController::class);
     Route::resource('users', UsersController::class);
     Route::resource('users.files', UserFilesController::class);
